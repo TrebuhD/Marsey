@@ -1,2 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-Marsey.iml
+.idea
+*.ipr
+*.iws
+*.iml
