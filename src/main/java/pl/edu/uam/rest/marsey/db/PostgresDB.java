@@ -1,14 +1,14 @@
 package pl.edu.uam.rest.marsey.db;
 
+import com.google.common.collect.Lists;
 import pl.edu.uam.rest.marsey.entity.CandidateEntity;
 import pl.edu.uam.rest.marsey.model.Candidate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.Query;
+import java.util.*;
 
 public class PostgresDB implements MarseyDatabase {
 
@@ -66,12 +66,42 @@ public class PostgresDB implements MarseyDatabase {
 
     @Override
     public Candidate createCandidate(Candidate candidate) {
-        return null;
+        CandidateEntity entity = buildCandidateEntity(candidate, false);
+        
+        try {
+            getEntityManager().getTransaction().begin();
+            
+            // Operations that modify the database go here.
+            getEntityManager().persist(entity);
+            getEntityManager().getTransaction().commit();
+        } finally {
+            if (getEntityManager().getTransaction().isActive()) {
+                getEntityManager().getTransaction().rollback();
+            }
+        }
+        
+        return new Candidate(new Candidate.CandidateBuilder()
+                .id(String.valueOf(entity.getId()))
+                .name(entity.getName())
+                .surname(entity.getSurname()));
     }
 
     @Override
     public Collection<Candidate> getCandidates() {
-        return null;
+        Query query = getEntityManager().createNamedQuery("candidates.findAll");
+        List<CandidateEntity> resultList = query.getResultList();
+        
+        List<Candidate> list = Collections.emptyList();
+        
+        if (resultList != null && !resultList.isEmpty()) {
+            list = Lists.newArrayListWithCapacity(resultList.size());
+            
+            for (CandidateEntity candidate : resultList) {
+                list.add(buildCandidateResponse(candidate));
+            }
+        }
+        
+        return list;
     }
 
     @Override
@@ -94,7 +124,7 @@ public class PostgresDB implements MarseyDatabase {
         return new Candidate(candidateBuilder);
     }
     
-    private CandidateEntity buildCandidateIdentity(Candidate candidate, boolean active) {
+    private CandidateEntity buildCandidateEntity(Candidate candidate, boolean active) {
         return new CandidateEntity(candidate.getName(), candidate.getSurname(), candidate.getSex(),
                 candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active);
         

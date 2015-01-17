@@ -7,7 +7,7 @@ import pl.edu.uam.rest.marsey.db.MemoryDB;
 import javax.ws.rs.Path;
 
 @Path("/candidates")
-@Api(value = "/candidates", description = "candidate operations")
+@Api(value = "/candidates", description = "candidate operations memoryDB")
 public class MemoryCandidatesResource extends AbstractCandidatesResource {
     private static final MarseyDatabase db = new MemoryDB();
     
