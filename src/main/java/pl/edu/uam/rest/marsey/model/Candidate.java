@@ -3,6 +3,7 @@ package pl.edu.uam.rest.marsey.model;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+
 @ApiModel(value = "Candidate")
 public class Candidate {
     private String id;

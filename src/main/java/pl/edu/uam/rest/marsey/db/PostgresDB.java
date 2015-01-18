@@ -48,6 +48,8 @@ public class PostgresDB implements MarseyDatabase {
         return entityManager;
     }
     
+    // CANDIDATE METHODS:
+    
     @Override
     public Candidate getCandidate(String sid) {
         Long id = null;
@@ -84,24 +86,34 @@ public class PostgresDB implements MarseyDatabase {
             }
         }
         
-        return new Candidate( String.valueOf(entity.getId()), entity.getName(), entity.getSurname() );
+        return buildCandidateResponse(entity);
     }
     
     @Override
     public Candidate updateCandidate(String candidateId, Candidate candidate) {
-        CandidateEntity entity = new CandidateEntity(
-                Long.valueOf(candidateId),
-                candidate.getName(),
-                candidate.getSurname(),
-                candidate.getSex(),
-                candidate.getOccupation(),
-                candidate.getHeight(),
-                candidate.getAge()
-        );
+        Long id;
+
+        try {
+            id = Long.valueOf(candidateId);
+        } catch (NumberFormatException e) {
+            return null;
+        }
         
-        getEntityManager().refresh(entity);
         
-        return buildCandidateResponse(entity);
+        getEntityManager().getTransaction().begin();
+        
+        CandidateEntity e = buildCandidateEntity(candidate, id, false);
+        getEntityManager().merge(e);
+        
+//        c.setName(candidate.getName());
+//        c.setSurname(candidate.getSurname());
+//        c.setAge(candidate.getAge());
+//        c.setHeight(candidate.getHeight());        
+//        c.setOccupation(candidate.getOccupation());  
+        
+        getEntityManager().getTransaction().commit();
+        
+        return buildCandidateResponse(e);
     }
 
     @Override
@@ -135,6 +147,11 @@ public class PostgresDB implements MarseyDatabase {
     private CandidateEntity buildCandidateEntity(Candidate candidate, boolean active) {
         return new CandidateEntity(candidate.getName(), candidate.getSurname(), candidate.getSex(),
                 candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active);
-        
     }
+
+    private CandidateEntity buildCandidateEntity(Candidate candidate, Long id, boolean active) {
+        return new CandidateEntity(id, candidate.getName(), candidate.getSurname(), candidate.getSex(),
+                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active);
+    }
+
 }

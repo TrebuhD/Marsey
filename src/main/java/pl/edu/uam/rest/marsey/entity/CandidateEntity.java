@@ -58,7 +58,7 @@ public class CandidateEntity {
     public CandidateEntity() {}
 
     public CandidateEntity(Long id, String firstName, String lastName, String sex,
-                           String occupation, Integer height, Integer age) {
+                           String occupation, Integer height, Integer age, boolean active) {
         this.id = id;
         this.name = firstName;
         this.surname = lastName;
@@ -66,6 +66,7 @@ public class CandidateEntity {
         this.occupation = occupation;
         this.age = age;
         this.height = height;
+        this.active = active;
     }
     
     public Long getId() {
@@ -75,7 +76,6 @@ public class CandidateEntity {
     public String getName() { return name; }
     
     public String getSurname() { return surname; }
-
 
     public String getSex() {
         return sex;
@@ -94,6 +94,39 @@ public class CandidateEntity {
     }
     
     public boolean isActive() { return active; }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     @Override
     public String toString() {
