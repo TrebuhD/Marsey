@@ -98,22 +98,23 @@ public class PostgresDB implements MarseyDatabase {
         } catch (NumberFormatException e) {
             return null;
         }
-        
-        
         getEntityManager().getTransaction().begin();
         
         CandidateEntity e = buildCandidateEntity(candidate, id, false);
         getEntityManager().merge(e);
         
-//        c.setName(candidate.getName());
-//        c.setSurname(candidate.getSurname());
-//        c.setAge(candidate.getAge());
-//        c.setHeight(candidate.getHeight());        
-//        c.setOccupation(candidate.getOccupation());  
-        
         getEntityManager().getTransaction().commit();
         
         return buildCandidateResponse(e);
+    }
+
+    @Override
+    public void removeCandidate(String candidateId) {
+        getEntityManager().getTransaction().begin();
+        getEntityManager().remove(
+                entityManager.find(CandidateEntity.class, Long.valueOf(candidateId))
+        );
+        getEntityManager().getTransaction().commit();
     }
 
     @Override
@@ -133,6 +134,7 @@ public class PostgresDB implements MarseyDatabase {
         
         return list;
     }
+    
 
     private Candidate buildCandidateResponse(CandidateEntity candidateEntity) {
         return new Candidate( String.valueOf(candidateEntity.getId()),

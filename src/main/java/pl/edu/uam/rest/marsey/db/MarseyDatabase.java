@@ -12,4 +12,6 @@ public interface MarseyDatabase {
     Collection<Candidate> getCandidates();
 
     Candidate updateCandidate(String candidateId, Candidate Candidate);
+    
+    void removeCandidate(String candidateId);
 }

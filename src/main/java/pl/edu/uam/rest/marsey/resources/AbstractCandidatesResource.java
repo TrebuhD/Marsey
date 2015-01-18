@@ -91,8 +91,16 @@ public abstract class AbstractCandidatesResource {
     @Path("/{candidateId}")
     @ApiOperation(value = "Remove a candidate", notes = "Delete a candidate")
     public Response removeCandidate(@PathParam("candidateId") String candidateId) {
-        // TODO: Delete candidate        
         
+        Candidate candidateFromDb = getDatabase().getCandidate(candidateId);
+        if (candidateFromDb == null) {
+            logger.error("Candidate not found");
+            throw new CandidateException("Candidate not found",
+                    "Kandydat nie został znaleziony",
+                    "http://docu.pl/errors/user-not-found");
+        }
+
+        getDatabase().removeCandidate(candidateId);
         return Response.noContent().build();
     }
 
