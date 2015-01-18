@@ -69,6 +69,8 @@ public abstract class AbstractCandidatesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCandidate(@PathParam("candidateId") String candidateId, Candidate candidate) {
+        
+        logger.info("PUT candidate" + candidate);
 
         Candidate candidateFromDb = getDatabase().getCandidate(candidateId);
         if (candidateFromDb == null) {
@@ -79,6 +81,8 @@ public abstract class AbstractCandidatesResource {
         }
 
         Candidate updatedCandidate = getDatabase().updateCandidate(candidateId, candidate);
+        
+        
 
         return Response.ok(updatedCandidate).build();
     }

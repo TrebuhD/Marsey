@@ -40,22 +40,32 @@ public class CandidateEntity {
     
     //indexing of fields for better performance
     private boolean active = false;
-    
+
+    public CandidateEntity(String name, String surname, String sex, String occupation, int height, int age, boolean active) {
+        this.name = name;
+        this.surname = surname;
+        this.sex = sex;
+        this.occupation = occupation;
+        this.height = height;
+        this.age = age;
+        this.active = active;
+    }
+
     // Lifecycle methods:
     @PostLoad
     private void postLoad() { LOGGER.info("postLoad: {}", toString());}
     
     public CandidateEntity() {}
 
-    public CandidateEntity(String firstName, String lastName, String sex,
-                           String occupation, Integer height, Integer age, boolean active) {
+    public CandidateEntity(Long id, String firstName, String lastName, String sex,
+                           String occupation, Integer height, Integer age) {
+        this.id = id;
         this.name = firstName;
         this.surname = lastName;
         this.sex = sex;
         this.occupation = occupation;
         this.age = age;
         this.height = height;
-        this.active = active;
     }
     
     public Long getId() {
@@ -82,6 +92,7 @@ public class CandidateEntity {
     public Integer getHeight() {
         return height;
     }
+    
     public boolean isActive() { return active; }
 
     @Override

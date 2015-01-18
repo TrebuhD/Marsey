@@ -86,6 +86,23 @@ public class PostgresDB implements MarseyDatabase {
         
         return new Candidate( String.valueOf(entity.getId()), entity.getName(), entity.getSurname() );
     }
+    
+    @Override
+    public Candidate updateCandidate(String candidateId, Candidate candidate) {
+        CandidateEntity entity = new CandidateEntity(
+                Long.valueOf(candidateId),
+                candidate.getName(),
+                candidate.getSurname(),
+                candidate.getSex(),
+                candidate.getOccupation(),
+                candidate.getHeight(),
+                candidate.getAge()
+        );
+        
+        getEntityManager().refresh(entity);
+        
+        return buildCandidateResponse(entity);
+    }
 
     @Override
     public Collection<Candidate> getCandidates() {
@@ -105,11 +122,6 @@ public class PostgresDB implements MarseyDatabase {
         return list;
     }
 
-    @Override
-    public Candidate updateCandidate(String candidateId, Candidate Candidate) {
-        return null;
-    }
-    
     private Candidate buildCandidateResponse(CandidateEntity candidateEntity) {
         return new Candidate( String.valueOf(candidateEntity.getId()),
                 candidateEntity.getName(),
