@@ -10,12 +10,12 @@ import javax.ws.rs.Path;
  * Candidates resource for PostgreSQL.
  */
 
-@Path("/candidates")
-@Api(value = "/candidates", description = "Candidate operations")
-public class CandidatesResource {
+@Path("/postgres/candidates")
+@Api(value = "/postgres/candidates", description = "Candidate operations postgres")
+public class CandidatesResource extends AbstractCandidatesResource{
     private static final MarseyDatabase database = new PostgresDB();
 
-    public static MarseyDatabase getDatabase() {
+    protected MarseyDatabase getDatabase() {
         return database;
     }
 }
