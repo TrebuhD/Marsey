@@ -13,6 +13,8 @@ public class Candidate {
 //    private Address address;
     private int age;
     private int height;
+    
+    public Candidate() {}
 
     public Candidate(String id, String name, String surname) {
         this.id = id;
