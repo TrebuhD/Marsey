@@ -16,8 +16,9 @@ public class CandidateEntity {
     private static final Logger LOGGER = LoggerFactory.getLogger(CandidateEntity.class);
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
     
     @Column(name = "name")
     private String name;
@@ -37,6 +38,7 @@ public class CandidateEntity {
     @Column(name = "height")
     private Integer height;
     
+    //indexing of fields for better performance
     private boolean active = false;
     
     // Lifecycle methods:

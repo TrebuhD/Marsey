@@ -22,10 +22,14 @@ public class PostgresDB implements MarseyDatabase {
     
     public static EntityManager getEntityManager() {
         if (entityManager == null) {
-            String dbUrl = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE;
+            String dbUrl = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE +
+                    "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
             Map<String, String> properties = new HashMap<>();
             
+            properties.put("hibernate.connection.requireSSL", "true");
+            properties.put("hibernate.connection.verifyServerCertificate", "false");
+
             properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
             properties.put("hibernate.connection.url", dbUrl);
@@ -35,7 +39,7 @@ public class PostgresDB implements MarseyDatabase {
             properties.put("hibernate.connection.format_sql", "true");
             
             properties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
-            properties.put("hibernate.gbm2ddl.auto", "update");
+            properties.put("hibernate.hbm2ddl.auto", "update");
 
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myUnit", properties);
             entityManager = entityManagerFactory.createEntityManager();
@@ -80,10 +84,7 @@ public class PostgresDB implements MarseyDatabase {
             }
         }
         
-        return new Candidate(new Candidate.CandidateBuilder()
-                .id(String.valueOf(entity.getId()))
-                .name(entity.getName())
-                .surname(entity.getSurname()));
+        return new Candidate( String.valueOf(entity.getId()), entity.getName(), entity.getSurname() );
     }
 
     @Override
@@ -110,18 +111,13 @@ public class PostgresDB implements MarseyDatabase {
     }
     
     private Candidate buildCandidateResponse(CandidateEntity candidateEntity) {
-        Candidate.CandidateBuilder candidateBuilder = new Candidate.CandidateBuilder();
-        
-        candidateBuilder.id(candidateEntity.getId().toString())
-                .name(candidateEntity.getName())
-                .surname(candidateEntity.getSurname())
-                .age(candidateEntity.getAge())
-                .height(candidateEntity.getHeight())
-                .occupation(candidateEntity.getOccupation())                
-                .sex(candidateEntity.getSex());
-        // TODO : address.
-        
-        return new Candidate(candidateBuilder);
+        return new Candidate( String.valueOf(candidateEntity.getId()),
+                candidateEntity.getName(),
+                candidateEntity.getSurname(),
+                candidateEntity.getSex(),
+                candidateEntity.getOccupation(),
+                candidateEntity.getAge(),
+                candidateEntity.getHeight());
     }
     
     private CandidateEntity buildCandidateEntity(Candidate candidate, boolean active) {

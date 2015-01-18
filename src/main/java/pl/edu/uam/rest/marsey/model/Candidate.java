@@ -10,21 +10,28 @@ public class Candidate {
     private String surname;
     private String sex;
     private String occupation;
-    private Address address;
+//    private Address address;
     private int age;
     private int height;
 
-    public Candidate(CandidateBuilder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.surname = builder.surname;
-        this.sex = builder.sex;
-        this.occupation = builder.occupation;
-        this.address = builder.address;
-        this.age = builder.age;
-        this.height = builder.height;
+    public Candidate(String id, String name, String surname) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
     }
-
+    
+    public Candidate(String id, String name, String surname, String sex, String occupation, int age, int height) {
+        // TODO: address
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.sex = sex;
+        this.occupation = occupation;
+//        this.address = address;
+        this.age = age;
+        this.height = height;
+    }
+    
     @ApiModelProperty(value = "Candidate id", required = true)
     public String getId() {
         return id;
@@ -60,66 +67,40 @@ public class Candidate {
         return age;
     }
 
-    @ApiModelProperty(value = "Address")
-    public Address getAddress() {
-        return address;
+//    @ApiModelProperty(value = "Address")
+//    public Address getAddress() {
+//        return address;
+//    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public static class CandidateBuilder{
-        private String id;
-        private String name;
-        private String surname;
-        private String sex;
-        private String occupation;
-        private Address address;
-        private int age;
-        private int height;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public CandidateBuilder() {
-        }
-        
-        public CandidateBuilder id(String id) {
-            this.id = id;
-            return this;
-        }
-        
-        public CandidateBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-        
-        public CandidateBuilder surname(String surname) {
-            this.surname = surname;
-            return this;
-        }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-        public CandidateBuilder sex(String sex) {
-            this.sex = sex;
-            return this;
-        }
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-        public CandidateBuilder occupation(String occupation) {
-            this.occupation = occupation;
-            return this;
-        }
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
 
-        public CandidateBuilder address(Address address) {
-            this.address = address;
-            return this;
-        }
+//    public void setAddress(Address address) {
+//        this.address = address;
+//    }
 
-        public CandidateBuilder age(int age) {
-            this.age = age;
-            return this;
-        }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-        public CandidateBuilder height(int height) {
-            this.height = height;
-            return this;
-        }
-
-        public Candidate build() {
-            return new Candidate(this);
-        }
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

@@ -33,11 +33,7 @@ public abstract class AbstractCandidatesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCandidate(Candidate candidate) {
-        Candidate dbCandidate = new Candidate(new Candidate.CandidateBuilder()
-                .id("")
-                .name(candidate.getName())
-                .surname(candidate.getSurname())
-        );
+        Candidate dbCandidate = new Candidate("", candidate.getName(), candidate.getSurname());
 
         Candidate createdCandidate = getDatabase().createCandidate(dbCandidate);
 
