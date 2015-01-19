@@ -12,11 +12,11 @@ import java.util.*;
 
 public class PostgresDB implements MarseyDatabase {
 
-    private static final String HOST = "ec2-54-83-33-196.compute-1.amazonaws.com";
+    private static final String HOST = "ec2-54-228-224-40.eu-west-1.compute.amazonaws.com";
     private static final int PORT = 5432;
-    private static final String DATABASE = "daif3niji906fq";
-    private static final String USER_NAME = "yxudxfwvbfxmpj";
-    private static final String PASSWORD = "FaygqH_kbDar53iGZf2llDBIy4";
+    private static final String DATABASE = "d986kdq6q8l67f";
+    private static final String USER_NAME = "hlcugftcncqqkv";
+    private static final String PASSWORD = "t--HqsfLq_2D9o_9fAa3xXuUkg";
 
     private static EntityManager entityManager;
     

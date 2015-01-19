@@ -25,15 +25,16 @@ public abstract class AbstractCandidatesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get candidate collection", notes = "Get the candidate list", response = Candidate.class,
-            responseContainer = "LIST")
+            responseContainer = "LIST", position = 1)
     public Collection<Candidate> list() { return getDatabase().getCandidates(); }
     
     @POST
-    @ApiOperation(value = "Create candidate", notes = "Create candidate", response = Candidate.class)
+    @ApiOperation(value = "Create candidate", notes = "Create candidate", response = Candidate.class, position = 2)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCandidate(Candidate candidate) {
-        Candidate dbCandidate = new Candidate("", candidate.getName(), candidate.getSurname());
+        Candidate dbCandidate = new Candidate("", candidate.getName(), candidate.getSurname(), candidate.getSex(),
+                candidate.getOccupation(), candidate.getAge(), candidate.getHeight());
 
         Candidate createdCandidate = getDatabase().createCandidate(dbCandidate);
 
@@ -43,7 +44,7 @@ public abstract class AbstractCandidatesResource {
 
     @GET
     @Path("/{candidateId}")
-    @ApiOperation(value = "Get candidate by id", response = Candidate.class)
+    @ApiOperation(value = "Get candidate by id", response = Candidate.class, position = 3)
     @Produces(MediaType.APPLICATION_JSON)
     public Candidate getCandidate(@PathParam("candidateId") String candidateId) throws Exception {
         Candidate candidate = getDatabase().getCandidate(candidateId);
@@ -65,7 +66,7 @@ public abstract class AbstractCandidatesResource {
 
     @PUT
     @Path("/{candidateId}")
-    @ApiOperation(value = "Update candidate", notes = "update candidate info", response = Candidate.class)
+    @ApiOperation(value = "Update candidate", notes = "update candidate info", response = Candidate.class, position = 4)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCandidate(@PathParam("candidateId") String candidateId, Candidate candidate) {
@@ -89,7 +90,7 @@ public abstract class AbstractCandidatesResource {
 
     @DELETE
     @Path("/{candidateId}")
-    @ApiOperation(value = "Remove a candidate", notes = "Delete a candidate")
+    @ApiOperation(value = "Remove a candidate", notes = "Delete a candidate", position = 5)
     public Response removeCandidate(@PathParam("candidateId") String candidateId) {
         
         Candidate candidateFromDb = getDatabase().getCandidate(candidateId);
