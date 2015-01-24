@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "candidates.findAll", query = "SELECT c FROM CandidateEntity c")
 })
+
 public class CandidateEntity {
     private static final Logger LOGGER = LoggerFactory.getLogger(CandidateEntity.class);
     
@@ -38,10 +39,14 @@ public class CandidateEntity {
     @Column(name = "height")
     private Integer height;
     
+    @Column(name = "astroFitness")
+    private Float astroFitness;
+    
     //indexing of fields for better performance
     private boolean active = false;
 
-    public CandidateEntity(String name, String surname, String sex, String occupation, int height, int age, boolean active) {
+    public CandidateEntity(String name, String surname, String sex, String occupation,
+                           int height, int age, boolean active, Float astroFitness) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -49,6 +54,7 @@ public class CandidateEntity {
         this.height = height;
         this.age = age;
         this.active = active;
+        this.astroFitness = astroFitness;
     }
 
     // Lifecycle methods:
@@ -58,7 +64,7 @@ public class CandidateEntity {
     public CandidateEntity() {}
 
     public CandidateEntity(Long id, String firstName, String lastName, String sex,
-                           String occupation, Integer height, Integer age, boolean active) {
+                           String occupation, Integer height, Integer age, boolean active, Float fitness) {
         this.id = id;
         this.name = firstName;
         this.surname = lastName;
@@ -67,6 +73,7 @@ public class CandidateEntity {
         this.age = age;
         this.height = height;
         this.active = active;
+        this.astroFitness = fitness;
     }
     
     public Long getId() {
@@ -95,7 +102,10 @@ public class CandidateEntity {
     
     public boolean isActive() { return active; }
 
-
+    public float getFitness() {
+        return astroFitness;
+    }
+    
     public void setId(Long id) {
         this.id = id;
     }
@@ -139,6 +149,8 @@ public class CandidateEntity {
                 .add("age", age)
                 .add("height", height)
                 .add("active", active)
+                .add("astroFitness", astroFitness)
                 .toString();
     }
+
 }

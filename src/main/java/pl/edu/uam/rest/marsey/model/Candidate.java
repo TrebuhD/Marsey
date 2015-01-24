@@ -14,6 +14,7 @@ public class Candidate {
 //    private Address address;
     private int age;
     private int height;
+    private float astroFitness;
     
     public Candidate() {}
 
@@ -23,7 +24,8 @@ public class Candidate {
         this.surname = surname;
     }
     
-    public Candidate(String id, String name, String surname, String sex, String occupation, int age, int height) {
+    public Candidate(String id, String name, String surname, String sex,
+                     String occupation, int age, int height, float astroFitness) {
         // TODO: address
         this.id = id;
         this.name = name;
@@ -33,6 +35,7 @@ public class Candidate {
 //        this.address = address;
         this.age = age;
         this.height = height;
+        this.astroFitness = astroFitness;
     }
     
     @ApiModelProperty(value = "Candidate id", required = true)
@@ -69,6 +72,9 @@ public class Candidate {
     public int getAge() {
         return age;
     }
+    
+    @ApiModelProperty(value = "AstroFitness", required = false)
+    public float getFitness() { return astroFitness; }
 
 //    @ApiModelProperty(value = "Address")
 //    public Address getAddress() {

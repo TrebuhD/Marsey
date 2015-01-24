@@ -138,22 +138,23 @@ public class PostgresDB implements MarseyDatabase {
 
     private Candidate buildCandidateResponse(CandidateEntity candidateEntity) {
         return new Candidate( String.valueOf(candidateEntity.getId()),
-                candidateEntity.getName(),
-                candidateEntity.getSurname(),
-                candidateEntity.getSex(),
-                candidateEntity.getOccupation(),
-                candidateEntity.getAge(),
-                candidateEntity.getHeight());
+            candidateEntity.getName(),
+            candidateEntity.getSurname(),
+            candidateEntity.getSex(),
+            candidateEntity.getOccupation(),
+            candidateEntity.getAge(),
+            candidateEntity.getHeight(),
+            candidateEntity.getFitness());
     }
     
     private CandidateEntity buildCandidateEntity(Candidate candidate, boolean active) {
         return new CandidateEntity(candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active);
+                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getFitness());
     }
 
     private CandidateEntity buildCandidateEntity(Candidate candidate, Long id, boolean active) {
         return new CandidateEntity(id, candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active);
+                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getFitness());
     }
 
 }

@@ -3,12 +3,10 @@ package pl.edu.uam.rest.marsey.exceptions;
 public class ExceptionMessage {
     private String message;
     private String userMessage;
-    private String info;
 
-    public ExceptionMessage(String message, String userMessage, String info) {
+    public ExceptionMessage(String message, String userMessage) {
         this.message = message;
         this.userMessage = userMessage;
-        this.info = info;
     }
 
     public String getMessage() {
@@ -19,7 +17,4 @@ public class ExceptionMessage {
         return userMessage;
     }
 
-    public String getInfo() {
-        return info;
-    }
 }
