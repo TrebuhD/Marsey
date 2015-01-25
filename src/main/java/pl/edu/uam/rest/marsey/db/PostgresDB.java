@@ -1,7 +1,9 @@
 package pl.edu.uam.rest.marsey.db;
 
 import com.google.common.collect.Lists;
+import pl.edu.uam.rest.marsey.entity.ActivityEntity;
 import pl.edu.uam.rest.marsey.entity.CandidateEntity;
+import pl.edu.uam.rest.marsey.model.Activity;
 import pl.edu.uam.rest.marsey.model.Candidate;
 
 import javax.persistence.EntityManager;
@@ -48,8 +50,26 @@ public class PostgresDB implements MarseyDatabase {
         return entityManager;
     }
     
-    // CANDIDATE METHODS:
-    
+//    CANDIDATE METHODS
+
+    @Override
+    public Collection<Candidate> getCandidates() {
+        Query query = getEntityManager().createNamedQuery("candidates.findAll");
+        List<CandidateEntity> resultList = query.getResultList();
+
+        List<Candidate> list = Collections.emptyList();
+
+        if (resultList != null && !resultList.isEmpty()) {
+            list = Lists.newArrayListWithCapacity(resultList.size());
+
+            for (CandidateEntity candidate : resultList) {
+                list.add(buildCandidateResponse(candidate));
+            }
+        }
+
+        return list;
+    }
+
     @Override
     public Candidate getCandidate(String sid) {
         Long id = null;
@@ -117,44 +137,87 @@ public class PostgresDB implements MarseyDatabase {
         getEntityManager().getTransaction().commit();
     }
 
-    @Override
-    public Collection<Candidate> getCandidates() {
-        Query query = getEntityManager().createNamedQuery("candidates.findAll");
-        List<CandidateEntity> resultList = query.getResultList();
-        
-        List<Candidate> list = Collections.emptyList();
-        
-        if (resultList != null && !resultList.isEmpty()) {
-            list = Lists.newArrayListWithCapacity(resultList.size());
-            
-            for (CandidateEntity candidate : resultList) {
-                list.add(buildCandidateResponse(candidate));
-            }
-        }
-        
-        return list;
-    }
-    
-
     private Candidate buildCandidateResponse(CandidateEntity candidateEntity) {
         return new Candidate( String.valueOf(candidateEntity.getId()),
-            candidateEntity.getName(),
-            candidateEntity.getSurname(),
-            candidateEntity.getSex(),
-            candidateEntity.getOccupation(),
-            candidateEntity.getAge(),
-            candidateEntity.getHeight(),
-            candidateEntity.getFitness());
+                candidateEntity.getName(),
+                candidateEntity.getSurname(),
+                candidateEntity.getSex(),
+                candidateEntity.getOccupation(),
+                candidateEntity.getAge(),
+                candidateEntity.getHeight(),
+                candidateEntity.getAstroFitness());
     }
-    
+
     private CandidateEntity buildCandidateEntity(Candidate candidate, boolean active) {
         return new CandidateEntity(candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getFitness());
+                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getAstroFitness());
     }
 
     private CandidateEntity buildCandidateEntity(Candidate candidate, Long id, boolean active) {
         return new CandidateEntity(id, candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getFitness());
+                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getAstroFitness());
+    }
+    
+//    ACTIVITY METHODS
+
+    @Override
+    public Collection<Activity> getActivities() {
+        Query query = getEntityManager().createNamedQuery("activities.findAll");
+        List<ActivityEntity> resultList = query.getResultList();
+
+        List<Activity> list = Collections.emptyList();
+
+        if (resultList != null && !resultList.isEmpty()) {
+            list = Lists.newArrayListWithCapacity(resultList.size());
+
+            for (ActivityEntity activity : resultList) {
+                list.add(buildActivityResponse(activity));
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public Activity getActivity(String id) {
+        return null;
+    }
+
+    @Override
+    public Activity createActivity(Activity activity) {
+        ActivityEntity entity = buildActivityEntity(activity);
+
+        try {
+            getEntityManager().getTransaction().begin();
+
+            // Operations that modify the database go here.
+            getEntityManager().merge(entity);
+            getEntityManager().getTransaction().commit();
+        } finally {
+            if (getEntityManager().getTransaction().isActive()) {
+                getEntityManager().getTransaction().rollback();
+            }
+        }
+
+        return buildActivityResponse(entity);
+    }
+
+    @Override
+    public Activity updateActivity(String activityId, Activity activity) {
+        return null;
+    }
+
+    @Override
+    public void deleteActivity(String activityId) {
+
+    }
+
+    private ActivityEntity buildActivityEntity(Activity activity) {
+        return new ActivityEntity(activity.getType(), activity.getDescription(), activity.getDate());
+    }
+
+    private Activity buildActivityResponse(ActivityEntity entity) {
+        return new Activity(String.valueOf(entity.getId()), entity.getType(), entity.getDescription(), entity.getDate());
     }
 
 }

@@ -38,7 +38,7 @@ public abstract class AbstractCandidatesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCandidate(Candidate candidate) {
         Candidate dbCandidate = new Candidate("", candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getAge(), candidate.getHeight(), candidate.getFitness());
+                candidate.getOccupation(), candidate.getAge(), candidate.getHeight(), candidate.getAstroFitness());
 
         Candidate createdCandidate = getDatabase().createCandidate(dbCandidate);
 
@@ -50,6 +50,10 @@ public abstract class AbstractCandidatesResource {
     @Path("/{candidateId}")
     @ApiOperation(value = "Find candidate by id", response = Candidate.class, position = 3)
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid ID supplied"),
+            @ApiResponse(code = 404, message = "Candidate not found")
+    })
     public Candidate getCandidate(@PathParam("candidateId") String candidateId) throws Exception {
         Candidate candidate = getDatabase().getCandidate(candidateId);
         
@@ -108,6 +112,10 @@ public abstract class AbstractCandidatesResource {
     @DELETE
     @Path("/{candidateId}")
     @ApiOperation(value = "Remove a candidate", notes = "Delete a candidate", position = 5)
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid ID supplied"),
+            @ApiResponse(code = 404, message = "Candidate not found")
+    })
     public Response removeCandidate(@PathParam("candidateId") String candidateId) {
 
         if (!NumberUtils.isNumber(candidateId) || Integer.valueOf(candidateId) < 0) {

@@ -1,12 +1,12 @@
 package pl.edu.uam.rest.marsey.entity;
 
 import com.google.common.base.MoreObjects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "candidates")
 @NamedQueries({
@@ -16,9 +16,14 @@ import javax.persistence.*;
 public class CandidateEntity {
     private static final Logger LOGGER = LoggerFactory.getLogger(CandidateEntity.class);
     
+//    @ManyToMany(
+//            targetEntity = ActivitiesEntity.class,
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+//    )
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id", unique = true)
     private Long id;
     
     @Column(name = "name")
@@ -46,7 +51,7 @@ public class CandidateEntity {
     private boolean active = false;
 
     public CandidateEntity(String name, String surname, String sex, String occupation,
-                           int height, int age, boolean active, Float astroFitness) {
+                           Integer height, Integer age, boolean active, Float astroFitness) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -64,7 +69,7 @@ public class CandidateEntity {
     public CandidateEntity() {}
 
     public CandidateEntity(Long id, String firstName, String lastName, String sex,
-                           String occupation, Integer height, Integer age, boolean active, Float fitness) {
+                           String occupation, Integer height, Integer age, boolean active, Float astroFitness) {
         this.id = id;
         this.name = firstName;
         this.surname = lastName;
@@ -73,7 +78,7 @@ public class CandidateEntity {
         this.age = age;
         this.height = height;
         this.active = active;
-        this.astroFitness = fitness;
+        this.astroFitness = astroFitness;
     }
     
     public Long getId() {
@@ -102,7 +107,7 @@ public class CandidateEntity {
     
     public boolean isActive() { return active; }
 
-    public float getFitness() {
+    public float getAstroFitness() {
         return astroFitness;
     }
     
@@ -137,6 +142,8 @@ public class CandidateEntity {
     public void setActive(boolean active) {
         this.active = active;
     }
+    
+    public void setAstroFitness(Float astroFitness) { this.astroFitness = astroFitness; }
 
     @Override
     public String toString() {
