@@ -46,7 +46,7 @@ public class PostgresDB implements MarseyDatabase {
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myUnit", properties);
             entityManager = entityManagerFactory.createEntityManager();
         }
-        
+
         return entityManager;
     }
     
@@ -72,7 +72,7 @@ public class PostgresDB implements MarseyDatabase {
 
     @Override
     public Candidate getCandidate(String sid) {
-        Long id = null;
+        Long id;
         
         try {
             id = Long.valueOf(sid);
@@ -208,7 +208,7 @@ public class PostgresDB implements MarseyDatabase {
             getEntityManager().getTransaction().begin();
 
             // Operations that modify the database go here.
-            getEntityManager().merge(entity);
+            getEntityManager().persist(entity);
             getEntityManager().getTransaction().commit();
         } finally {
             if (getEntityManager().getTransaction().isActive()) {

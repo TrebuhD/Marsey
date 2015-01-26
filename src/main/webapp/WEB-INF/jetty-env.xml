@@ -1,0 +1,14 @@
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+    <Get name="securityHandler">
+        <Set name="loginService">
+            <New class="org.eclipse.jetty.security.HashLoginService">
+                <Set name="name">default</Set>
+                <Set name="config">src/main/jetty-realm.properties</Set>
+                <Call name ="start"/>
+            </New>
+        </Set>
+        <Set name="checkWelcomeFiles">true</Set>
+    </Get>
+</Configure>
+    

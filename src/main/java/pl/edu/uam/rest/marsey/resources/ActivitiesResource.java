@@ -12,6 +12,5 @@ import javax.ws.rs.Produces;
 @Produces({"application/json", "application/xml"})
 public class ActivitiesResource extends AbstractActivitiesResource {
     private static final MarseyDatabase database = new PostgresDB();
-    
     protected MarseyDatabase getDatabase() { return database; }
 }
