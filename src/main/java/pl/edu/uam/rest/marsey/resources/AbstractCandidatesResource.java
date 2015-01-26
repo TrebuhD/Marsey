@@ -36,9 +36,9 @@ public abstract class AbstractCandidatesResource {
     @ApiOperation(value = "Create candidate", notes = "Create candidate", response = Candidate.class, position = 2)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createCandidate(Candidate candidate) {
-        Candidate dbCandidate = new Candidate("", candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getAge(), candidate.getHeight(), candidate.getAstroFitness());
+    public Response createCandidate(Candidate c) {
+        Candidate dbCandidate = new Candidate("", c.getName(), c.getSurname(), c.getSex(),
+                c.getOccupation(), c.getAge(), c.getHeight(), c.getWeight(), c.getAstroFitness());
 
         Candidate createdCandidate = getDatabase().createCandidate(dbCandidate);
 

@@ -38,6 +38,9 @@ public class CandidateEntity {
     
     @Column(name = "height")
     private Integer height;
+
+    @Column(name = "weight")
+    private Integer weight;
     
     @Column(name = "astroFitness")
     private Float astroFitness;
@@ -58,25 +61,27 @@ public class CandidateEntity {
 
     public CandidateEntity() {}
 
-    public CandidateEntity(String name, String surname, String sex, String occupation,
-                           Integer height, Integer age, boolean active, Float astroFitness) {
+    public CandidateEntity(String name, String surname, String sex, String occupation, Integer height,
+                           Integer weight, Integer age, boolean active, Float astroFitness) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
         this.occupation = occupation;
         this.height = height;
+        this.weight = weight;
         this.age = age;
         this.active = active;
         this.astroFitness = astroFitness;
     }
 
-    public CandidateEntity(Long id, String firstName, String lastName, String sex,
-                           String occupation, Integer height, Integer age, boolean active, Float astroFitness) {
+    public CandidateEntity(Long id, String firstName, String lastName, String sex, String occupation,
+                           Integer height, Integer weight, Integer age, boolean active, Float astroFitness) {
         this.id = id;
         this.name = firstName;
         this.surname = lastName;
         this.sex = sex;
         this.occupation = occupation;
+        this.weight = weight;
         this.age = age;
         this.height = height;
         this.active = active;
@@ -115,6 +120,14 @@ public class CandidateEntity {
 
     public float getAstroFitness() {
         return astroFitness;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
     
     public void setId(Long id) {
@@ -161,6 +174,7 @@ public class CandidateEntity {
                 .add("occupation", occupation)
                 .add("age", age)
                 .add("height", height)
+                .add("weight", weight)
                 .add("active", active)
                 .add("astroFitness", astroFitness)
                 .toString();

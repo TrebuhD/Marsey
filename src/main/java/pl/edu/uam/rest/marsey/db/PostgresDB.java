@@ -145,17 +145,18 @@ public class PostgresDB implements MarseyDatabase {
                 candidateEntity.getOccupation(),
                 candidateEntity.getAge(),
                 candidateEntity.getHeight(),
+                candidateEntity.getWeight(),
                 candidateEntity.getAstroFitness());
     }
 
-    private CandidateEntity buildCandidateEntity(Candidate candidate, boolean active) {
-        return new CandidateEntity(candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getAstroFitness());
+    private CandidateEntity buildCandidateEntity(Candidate c, boolean active) {
+        return new CandidateEntity(c.getName(), c.getSurname(), c.getSex(), c.getOccupation(),
+                c.getHeight(), c.getWeight(), c.getAge(), active, c.getAstroFitness());
     }
 
-    private CandidateEntity buildCandidateEntity(Candidate candidate, Long id, boolean active) {
-        return new CandidateEntity(id, candidate.getName(), candidate.getSurname(), candidate.getSex(),
-                candidate.getOccupation(), candidate.getHeight(), candidate.getAge(), active, candidate.getAstroFitness());
+    private CandidateEntity buildCandidateEntity(Candidate c, Long id, boolean active) {
+        return new CandidateEntity(id, c.getName(), c.getSurname(), c.getSex(), c.getOccupation(),
+                c.getHeight(), c.getWeight(), c.getAge(), active, c.getAstroFitness());
     }
     
 //    ACTIVITY METHODS
@@ -246,13 +247,13 @@ public class PostgresDB implements MarseyDatabase {
         getEntityManager().getTransaction().commit();
     }
 
-    private ActivityEntity buildActivityEntity(Activity activity, Long id) {
-        return new ActivityEntity(id, activity.getType(), activity.getDescription(), activity.getDate());
+    private ActivityEntity buildActivityEntity(Activity a, Long id) {
+        return new ActivityEntity(id, a.getType(), a.getDescription(), a.getDate());
     }
 
-    private ActivityEntity buildActivityEntity(Activity activity) {
-        return new ActivityEntity(activity.getType(),
-                activity.getDescription(), activity.getDate());
+    private ActivityEntity buildActivityEntity(Activity a) {
+        return new ActivityEntity(a.getType(),
+                a.getDescription(), a.getDate());
     }
 
     private Activity buildActivityResponse(ActivityEntity entity) {

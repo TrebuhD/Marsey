@@ -16,14 +16,15 @@ public class Candidate {
     private String occupation;
     private Integer age;
     private Integer height;
+    private Integer weight;
     private Float astroFitness;
     
     private Set<Activity> activities = new HashSet<>(0);
     
     public Candidate() {}
     
-    public Candidate(String id, String name, String surname, String sex,
-                     String occupation, Integer age, Integer height, Float astroFitness) {
+    public Candidate(String id, String name, String surname, String sex, String occupation,
+                     Integer age, Integer height, Integer weight, Float astroFitness) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -31,6 +32,7 @@ public class Candidate {
         this.occupation = occupation;
         this.age = age;
         this.height = height;
+        this.weight = weight;
         this.astroFitness = astroFitness;
     }
     
@@ -59,17 +61,21 @@ public class Candidate {
         return sex;
     }
 
-    @ApiModelProperty(value = "Height", required = false)
+    @ApiModelProperty(value = "Height in centimetres", required = false)
     public Integer getHeight() {
         return height;
     }
+    
+    @ApiModelProperty(value = "Weight in kilograms", required = false)
+    public Integer getWeight() { return weight; }
 
     @ApiModelProperty(value = "Age", required = false)
     public Integer getAge() {
         return age;
     }
     
-    @ApiModelProperty(value = "AstroFitness", required = false)
+    @ApiModelProperty(value = "A value between 0 and 1, meaning how well adjusted for a mars mission the candidate is",
+            required = false)
     public Float getAstroFitness() { return astroFitness; }
 
     public void setId(String id) {
