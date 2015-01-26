@@ -46,6 +46,14 @@ public abstract class AbstractCandidatesResource {
                 .entity(createdCandidate).build();
     }
 
+//    @GET
+//    @Path("/{candidateId}/activities")
+//    @ApiOperation(value = "List all candidate activities", response = Activity.class)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Collection<Activity> listActivities(@PathParam("candidateId") String candidateId) {
+//        return getDatabase().getCandidate(candidateId).getActivities();
+//    }
+
     @GET
     @Path("/{candidateId}")
     @ApiOperation(value = "Find candidate by id", response = Candidate.class, position = 3)

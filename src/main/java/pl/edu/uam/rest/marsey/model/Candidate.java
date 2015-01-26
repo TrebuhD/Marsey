@@ -78,6 +78,10 @@ public class Candidate {
             required = false)
     public Float getAstroFitness() { return astroFitness; }
 
+    @ApiModelProperty(value = "Candidate activities")
+    public Set getActivities() {
+        return activities;
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -114,11 +118,7 @@ public class Candidate {
         this.astroFitness = astroFitness;
     }
 
-//    public Set getActivities() {
-//        return activities;
-//    }
-//
-//    public void setActivities(Set activities) {
-//        this.activities = activities;
-//    }
+    public void setActivities(Set activities) {
+        this.activities = activities;
+    }
 }
