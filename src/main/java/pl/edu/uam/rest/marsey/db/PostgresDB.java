@@ -259,5 +259,4 @@ public class PostgresDB implements MarseyDatabase {
         return new Activity(String.valueOf(entity.getId()), entity.getType(),
                 entity.getDescription(), entity.getDate());
     }
-
 }

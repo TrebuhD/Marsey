@@ -6,8 +6,8 @@
     <persistence-unit name="myUnit">
         <description>My Persistence Unit</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>pl.edu.uam.rest.marsey.entity.CandidateEntity</class>
-        <class>pl.edu.uam.rest.marsey.entity.ActivityEntity</class>
+        <!--<class>pl.edu.uam.rest.marsey.entity.CandidateEntity</class>-->
+        <!--<class>pl.edu.uam.rest.marsey.entity.ActivityEntity</class>-->
     </persistence-unit>
 
 </persistence>

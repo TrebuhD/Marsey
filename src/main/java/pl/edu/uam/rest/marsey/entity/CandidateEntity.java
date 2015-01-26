@@ -41,7 +41,16 @@ public class CandidateEntity {
     
     @Column(name = "astroFitness")
     private Float astroFitness;
-    
+
+
+    @ManyToMany(
+            targetEntity = ActivityEntity.class,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE }
+    )
+    @JoinTable(name = "cand_act",
+            joinColumns = @JoinColumn(name = "candidate_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "activity_id", nullable = false)
+    )
     private Set<ActivityEntity> activities = new HashSet<>(0);
     
     //indexing of fields for better performance
@@ -157,14 +166,6 @@ public class CandidateEntity {
                 .toString();
     }
 
-    @ManyToMany(
-            targetEntity = ActivityEntity.class,
-            cascade = { CascadeType.PERSIST, CascadeType.MERGE }
-    )
-    @JoinTable(name = "cand_act",
-            joinColumns = @JoinColumn(name = "candidate_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "activity_id", nullable = false)
-    )
     public Set<ActivityEntity> getActivities() {
         return activities;
     }

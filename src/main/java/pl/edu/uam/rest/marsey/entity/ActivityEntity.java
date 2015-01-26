@@ -32,7 +32,12 @@ public class ActivityEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date")
     private Date date;
-    
+
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE },
+            fetch = FetchType.LAZY,
+            mappedBy = "activities",
+            targetEntity = CandidateEntity.class)
     private Set<CandidateEntity> candidates = new HashSet<>(0);
 
     public ActivityEntity() {
@@ -89,11 +94,6 @@ public class ActivityEntity {
                 .toString();
     }
 
-    @ManyToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE },
-            fetch = FetchType.LAZY,
-            mappedBy = "activities",
-            targetEntity = CandidateEntity.class)
     public Set<CandidateEntity> getCandidates() {
         return this.candidates;
     }
