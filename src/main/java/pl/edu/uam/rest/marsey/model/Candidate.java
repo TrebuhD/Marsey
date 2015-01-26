@@ -17,22 +17,14 @@ public class Candidate {
     private Float astroFitness;
     
     public Candidate() {}
-
-    public Candidate(String id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-    }
     
     public Candidate(String id, String name, String surname, String sex,
                      String occupation, Integer age, Integer height, Float astroFitness) {
-        // TODO: address
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.sex = sex;
         this.occupation = occupation;
-//        this.address = address;
         this.age = age;
         this.height = height;
         this.astroFitness = astroFitness;

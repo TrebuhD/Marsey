@@ -6,7 +6,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import pl.edu.uam.rest.marsey.db.MarseyDatabase;
-import pl.edu.uam.rest.marsey.exceptions.CandidateNotFoundException;
+import pl.edu.uam.rest.marsey.exceptions.MyNotFoundException;
 import pl.edu.uam.rest.marsey.exceptions.NumericException;
 import pl.edu.uam.rest.marsey.model.Candidate;
 
@@ -57,8 +57,6 @@ public abstract class AbstractCandidatesResource {
     public Candidate getCandidate(@PathParam("candidateId") String candidateId) throws Exception {
         Candidate candidate = getDatabase().getCandidate(candidateId);
         
-        logger.info(NumberUtils.isDigits(candidateId));
-
         if (!NumberUtils.isDigits(candidateId) || Integer.valueOf(candidateId) < 0) {
             logger.error("Invalid id provided.");
             throw new NumericException("Invalid id", "Podano nieprawidłowe id");
@@ -71,16 +69,15 @@ public abstract class AbstractCandidatesResource {
 
         if (candidate == null) {
             logger.error("Candidate not found");
-            throw new CandidateNotFoundException("Candidate not found", "Kandydat nie został znaleziony");
+            throw new MyNotFoundException("Candidate not found", "Kandydat nie został znaleziony");
         }
 
         return candidate;
     }
-    
 
     @PUT
     @Path("/{candidateId}")
-    @ApiOperation(value = "Update candidate", notes = "update candidate info", response = Candidate.class, position = 4)
+    @ApiOperation(value = "Update candidate", notes = "Update candidate info", response = Candidate.class, position = 4)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @ApiResponses(value = {
@@ -88,7 +85,6 @@ public abstract class AbstractCandidatesResource {
             @ApiResponse(code = 404, message = "Candidate not found")
     })
     public Response updateCandidate(@PathParam("candidateId") String candidateId, Candidate candidate) {
-        int id = Integer.valueOf(candidateId);
         logger.info("PUT candidate" + candidate);
 
         if (!NumberUtils.isNumber(candidateId) || Integer.valueOf(candidateId) < 0) {
@@ -99,12 +95,10 @@ public abstract class AbstractCandidatesResource {
         Candidate candidateFromDb = getDatabase().getCandidate(candidateId);
         if (candidateFromDb == null) {
             logger.error("Candidate not found");
-            throw new CandidateNotFoundException("Candidate not found", "Kandydat nie został znaleziony");
+            throw new MyNotFoundException("Candidate not found", "Kandydat nie został znaleziony");
         }
 
         Candidate updatedCandidate = getDatabase().updateCandidate(candidateId, candidate);
-        
-        
 
         return Response.ok(updatedCandidate).build();
     }
@@ -126,10 +120,11 @@ public abstract class AbstractCandidatesResource {
         Candidate candidateFromDb = getDatabase().getCandidate(candidateId);
         if (candidateFromDb == null) {
             logger.error("Candidate not found");
-            throw new CandidateNotFoundException("Candidate not found",
+            throw new MyNotFoundException("Candidate not found",
                     "Kandydat nie został znaleziony");
         }
 
+        logger.info("Deleting candidate: {}" + candidateFromDb);
         getDatabase().removeCandidate(candidateId);
         return Response.noContent().build();
     }

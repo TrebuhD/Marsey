@@ -11,7 +11,7 @@ public class Activity {
     private String type;
     private String description;
     private Date date;
-    
+
     public Activity() {}
 
     public Activity(String id, String type, String description, Date date) {
@@ -31,13 +31,16 @@ public class Activity {
         return type;
     }
 
-    @ApiModelProperty(value = "Activity description", required = false)
+    @ApiModelProperty(value = "Activity description")
     public String getDescription() {
         return description;
     }
+    
+    @ApiModelProperty(value = "Date of activity")
+    public Date getDate() { return date; }
 
-    @ApiModelProperty(value = "Date of activity", required = false)
-    public Date getDate() {
-        return date;
+    public void setId(String id) {
+        this.id = id;
     }
+
 }

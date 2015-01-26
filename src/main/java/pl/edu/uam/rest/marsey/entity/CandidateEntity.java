@@ -12,7 +12,6 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "candidates.findAll", query = "SELECT c FROM CandidateEntity c")
 })
-
 public class CandidateEntity {
     private static final Logger LOGGER = LoggerFactory.getLogger(CandidateEntity.class);
     
@@ -22,7 +21,7 @@ public class CandidateEntity {
 //    )
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
     
@@ -62,10 +61,6 @@ public class CandidateEntity {
         this.astroFitness = astroFitness;
     }
 
-    // Lifecycle methods:
-    @PostLoad
-    private void postLoad() { LOGGER.info("postLoad: {}", toString());}
-    
     public CandidateEntity() {}
 
     public CandidateEntity(Long id, String firstName, String lastName, String sex,
@@ -80,7 +75,11 @@ public class CandidateEntity {
         this.active = active;
         this.astroFitness = astroFitness;
     }
-    
+
+    // Lifecycle methods:
+    @PostLoad
+    private void postLoad() { LOGGER.info("postLoad: {}", toString()); }
+
     public Long getId() {
         return id;
     }
@@ -159,5 +158,4 @@ public class CandidateEntity {
                 .add("astroFitness", astroFitness)
                 .toString();
     }
-
 }

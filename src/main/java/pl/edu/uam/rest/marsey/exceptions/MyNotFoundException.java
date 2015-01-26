@@ -4,8 +4,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class CandidateNotFoundException extends WebApplicationException {
-    public CandidateNotFoundException(String message, String userMessage) {
+public class MyNotFoundException extends WebApplicationException {
+    public MyNotFoundException(String message, String userMessage) {
         super(Response.status(Response.Status.NOT_FOUND)
                 .entity(createExceptionMessage(message, userMessage))
                 .type(MediaType.APPLICATION_JSON)

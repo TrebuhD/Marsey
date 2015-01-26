@@ -22,7 +22,7 @@ public class PostgresDB implements MarseyDatabase {
 
     private static EntityManager entityManager;
     
-    public static EntityManager getEntityManager() {
+    private static EntityManager getEntityManager() {
         if (entityManager == null) {
             String dbUrl = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE +
                     "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
@@ -119,7 +119,7 @@ public class PostgresDB implements MarseyDatabase {
             return null;
         }
         getEntityManager().getTransaction().begin();
-        
+
         CandidateEntity e = buildCandidateEntity(candidate, id, false);
         getEntityManager().merge(e);
         
@@ -179,10 +179,26 @@ public class PostgresDB implements MarseyDatabase {
     }
 
     @Override
-    public Activity getActivity(String id) {
+    public Activity getActivity(String sid) {
+        Long id;
+        
+        try {
+            id = Long.valueOf(sid);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        
+        ActivityEntity activityEntity = getEntityManager()
+                .find(ActivityEntity.class, id);
+        
+        if (activityEntity != null) {
+            return buildActivityResponse(activityEntity);
+        }
+        
         return null;
     }
 
+    // POST
     @Override
     public Activity createActivity(Activity activity) {
         ActivityEntity entity = buildActivityEntity(activity);
@@ -198,26 +214,50 @@ public class PostgresDB implements MarseyDatabase {
                 getEntityManager().getTransaction().rollback();
             }
         }
-
         return buildActivityResponse(entity);
     }
 
     @Override
     public Activity updateActivity(String activityId, Activity activity) {
-        return null;
+        Long id;
+        
+        try {
+            id = Long.valueOf(activityId);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        getEntityManager().getTransaction().begin();
+        
+        ActivityEntity ar = buildActivityEntity(activity, id);
+        
+        getEntityManager().merge(ar);
+        
+        getEntityManager().getTransaction().commit();
+        
+        return buildActivityResponse(ar);
     }
 
     @Override
     public void deleteActivity(String activityId) {
+        getEntityManager().getTransaction().begin();
+        getEntityManager().remove(
+                entityManager.find(ActivityEntity.class, Long.valueOf(activityId))
+        );
+        getEntityManager().getTransaction().commit();
+    }
 
+    private ActivityEntity buildActivityEntity(Activity activity, Long id) {
+        return new ActivityEntity(id, activity.getType(), activity.getDescription(), activity.getDate());
     }
 
     private ActivityEntity buildActivityEntity(Activity activity) {
-        return new ActivityEntity(activity.getType(), activity.getDescription(), activity.getDate());
+        return new ActivityEntity(activity.getType(),
+                activity.getDescription(), activity.getDate());
     }
 
     private Activity buildActivityResponse(ActivityEntity entity) {
-        return new Activity(String.valueOf(entity.getId()), entity.getType(), entity.getDescription(), entity.getDate());
+        return new Activity(String.valueOf(entity.getId()), entity.getType(),
+                entity.getDescription(), entity.getDate());
     }
 
 }
