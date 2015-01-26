@@ -11,7 +11,6 @@ public class Candidate {
     private String surname;
     private String sex;
     private String occupation;
-//    private Address address;
     private Integer age;
     private Integer height;
     private Float astroFitness;
@@ -68,11 +67,6 @@ public class Candidate {
     @ApiModelProperty(value = "AstroFitness", required = false)
     public Float getAstroFitness() { return astroFitness; }
 
-//    @ApiModelProperty(value = "Address")
-//    public Address getAddress() {
-//        return address;
-//    }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -108,4 +102,5 @@ public class Candidate {
     public void setAstroFitness(Float astroFitness) {
         this.astroFitness = astroFitness;
     }
+    
 }
