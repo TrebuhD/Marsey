@@ -5,21 +5,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "candidates")
 @NamedQueries({
-        @NamedQuery(name = "candidates.findAll", query = "SELECT c FROM CandidateEntity c")
-})
+        @NamedQuery(name = "candidates.findAll", query = "SELECT c FROM CandidateEntity c") })
 public class CandidateEntity {
     private static final Logger LOGGER = LoggerFactory.getLogger(CandidateEntity.class);
-    
-//    @ManyToMany(
-//            targetEntity = ActivitiesEntity.class,
-//            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-//    )
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -46,8 +42,12 @@ public class CandidateEntity {
     @Column(name = "astroFitness")
     private Float astroFitness;
     
+    private Set<ActivityEntity> activities = new HashSet<>(0);
+    
     //indexing of fields for better performance
     private boolean active = false;
+
+    public CandidateEntity() {}
 
     public CandidateEntity(String name, String surname, String sex, String occupation,
                            Integer height, Integer age, boolean active, Float astroFitness) {
@@ -60,8 +60,6 @@ public class CandidateEntity {
         this.active = active;
         this.astroFitness = astroFitness;
     }
-
-    public CandidateEntity() {}
 
     public CandidateEntity(Long id, String firstName, String lastName, String sex,
                            String occupation, Integer height, Integer age, boolean active, Float astroFitness) {
@@ -157,5 +155,21 @@ public class CandidateEntity {
                 .add("active", active)
                 .add("astroFitness", astroFitness)
                 .toString();
+    }
+
+    @ManyToMany(
+            targetEntity = ActivityEntity.class,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE }
+    )
+    @JoinTable(name = "cand_act",
+            joinColumns = @JoinColumn(name = "candidate_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "activity_id", nullable = false)
+    )
+    public Set<ActivityEntity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Set<ActivityEntity> activities) {
+        this.activities = activities;
     }
 }

@@ -3,6 +3,9 @@ package pl.edu.uam.rest.marsey.model;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @ApiModel(value = "Candidate")
 public class Candidate {
@@ -14,6 +17,8 @@ public class Candidate {
     private Integer age;
     private Integer height;
     private Float astroFitness;
+    
+    private Set<Activity> activities = new HashSet<>(0);
     
     public Candidate() {}
     
@@ -102,5 +107,12 @@ public class Candidate {
     public void setAstroFitness(Float astroFitness) {
         this.astroFitness = astroFitness;
     }
-    
+
+//    public Set getActivities() {
+//        return activities;
+//    }
+//
+//    public void setActivities(Set activities) {
+//        this.activities = activities;
+//    }
 }

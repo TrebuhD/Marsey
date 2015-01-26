@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -30,9 +32,8 @@ public class ActivityEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date")
     private Date date;
-
-//    @ManyToMany(mappedBy = "activity")
-//    private List<CandidateEntity> candidates;
+    
+    private Set<CandidateEntity> candidates = new HashSet<>(0);
 
     public ActivityEntity() {
     }
@@ -50,10 +51,10 @@ public class ActivityEntity {
         this.date = date;
     }
 
-//    @PrePersist
-//    protected void onCreate() {
-//        this.date = new Date();
-//    }
+    @PrePersist
+    protected void onCreate() {
+        this.date = new Date();
+    }
 
     @PostLoad
     private void postLoad() { LOGGER.info("postLoad: {}", toString()); }
@@ -71,9 +72,6 @@ public class ActivityEntity {
     }
 
     public Date getDate() {
-        if (date == null) {
-            date = new Date();
-        }
         return date;
     }
 
@@ -91,4 +89,16 @@ public class ActivityEntity {
                 .toString();
     }
 
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE },
+            fetch = FetchType.LAZY,
+            mappedBy = "activities",
+            targetEntity = CandidateEntity.class)
+    public Set<CandidateEntity> getCandidates() {
+        return this.candidates;
+    }
+
+    public void setCandidates(Set<CandidateEntity> candidates) {
+        this.candidates = candidates;
+    }
 }

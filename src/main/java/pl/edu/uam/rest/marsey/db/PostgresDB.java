@@ -42,7 +42,7 @@ public class PostgresDB implements MarseyDatabase {
             
             properties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
             properties.put("hibernate.hbm2ddl.auto", "update");
-
+            
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myUnit", properties);
             entityManager = entityManagerFactory.createEntityManager();
         }
