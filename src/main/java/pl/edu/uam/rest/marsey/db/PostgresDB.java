@@ -24,13 +24,11 @@ public class PostgresDB implements MarseyDatabase {
     
     private static EntityManager getEntityManager() {
         if (entityManager == null) {
-            String dbUrl = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE +
-                    "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-
+            String dbUrl = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE;
             Map<String, String> properties = new HashMap<>();
             
-            properties.put("hibernate.connection.requireSSL", "true");
-            properties.put("hibernate.connection.verifyServerCertificate", "false");
+            // properties.put("hibernate.connection.requireSSL", "true");
+            // properties.put("hibernate.connection.verifyServerCertificate", "false");
 
             properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
