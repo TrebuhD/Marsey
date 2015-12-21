@@ -14,7 +14,7 @@ import java.util.*;
 
 public class PostgresDB implements MarseyDatabase {
 
-    private static final String HOST = "ec2-54-228-224-40.eu-west-1.compute.amazonaws.com";
+    private static final String HOST = "cvm3mdsf8jcc.eu-central-1.rds.amazonaws.com:5432";
     private static final int PORT = 5432;
     private static final String DATABASE = "d986kdq6q8l67f";
     private static final String USER_NAME = "hlcugftcncqqkv";
