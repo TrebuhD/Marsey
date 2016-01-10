@@ -24,7 +24,7 @@ public class PostgresDB implements MarseyDatabase {
     
     private static EntityManager getEntityManager() {
         if (entityManager == null) {
-            String dbUrl = "postgres://hlcugftcncqqkv:t--HqsfLq_2D9o_9fAa3xXuUkg@ec2-54-228-224-40.eu-west-1.compute.amazonaws.com:5432/d986kdq6q8l67f";
+            String dbUrl = "jdbc:postgresql://ec2-54-228-224-40.eu-west-1.compute.amazonaws.com:5432/d986kdq6q8l67f";
 
             Map<String, String> properties = new HashMap<>();
             
