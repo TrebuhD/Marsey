@@ -24,8 +24,7 @@ public class PostgresDB implements MarseyDatabase {
     
     private static EntityManager getEntityManager() {
         if (entityManager == null) {
-            String dbUrl = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE;
-            Map<String, String> properties = new HashMap<>();
+            String dbUrl = "jdbc:postgres://hlcugftcncqqkv:t--HqsfLq_2D9o_9fAa3xXuUkg@ec2-54-228-224-40.eu-west-1.compute.amazonaws.com:5432/d986kdq6q8l67f";
             
             // properties.put("hibernate.connection.requireSSL", "true");
             // properties.put("hibernate.connection.verifyServerCertificate", "false");
